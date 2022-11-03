@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Curso } from './../model/curso';
 import { catchError, Observable, of } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -14,13 +15,16 @@ import { MatDialog } from '@angular/material/dialog';
 export class CursosComponent implements OnInit {
 
   cursos$: Observable<Curso[]>;
-  displayedColumns = ['name', 'categoria'];
+  displayedColumns = ['name', 'categoria', 'actions'];
 
   //cursoService: CursosService;
 
   constructor(
     private cursoService: CursosService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+    ) {
     //this.cursoService = new CursosService();
     this.cursos$ = this.cursoService.list()
     .pipe(
@@ -40,4 +44,9 @@ export class CursosComponent implements OnInit {
   ngOnInit(): void {
 
   }
+
+  onAdd() {
+    this.router.navigate(['novo'], {relativeTo: this.route})
+  }
+
 }
